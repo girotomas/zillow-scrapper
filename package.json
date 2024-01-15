@@ -1,0 +1,26 @@
+{
+  "name": "zillow-scrapper",
+  "version": "1.0.0",
+  "description": "",
+  "main": ".prettierrc.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx tsc && node ./build/index.js",
+    "runServer": "npx tsc && node ./build/testServer.js",
+    "runClient": "npx tsc && node ./build/testClient.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.11.2",
+    "@types/node-ipc": "^9.2.3",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "node-ipc": "^11.1.0",
+    "puppeteer": "^21.7.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
+  }
+}
