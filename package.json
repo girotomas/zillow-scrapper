@@ -5,9 +5,7 @@
   "main": "./build/electron.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx tsc && node ./build/index.js",
-    "runServer": "npx tsc && node ./build/testServer.js",
-    "runClient": "npx tsc && node ./build/testClient.js",
+    "scrappe": "npx tsc && node ./build/run_scrapper.js",
     "format": "prettier --write ."
   },
   "keywords": [],

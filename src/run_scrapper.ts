@@ -1,8 +1,8 @@
 import { Page } from 'puppeteer'
 import puppeteer from 'puppeteer-extra'
 import * as fs from 'fs'
+import StealthPlugin from 'puppeteer-extra-plugin-stealth'
 
-const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 puppeteer.use(StealthPlugin())
 
 enum Target {
@@ -103,9 +103,6 @@ function sleep(n: number) {
 function randomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
-
-const NEIGHBORHOOD_URL = 'https://www.zillow.com/homes/'
 
 ;(async () => {
   const scrappy = new Scraper()
