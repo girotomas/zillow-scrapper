@@ -65,14 +65,12 @@ class ResultSaver {
   }
 }
 
-
-
 const getNeighborhoodUrl = (zipcode: string) => {
   return `https://www.zillow.com/homes/${zipcode}`
 }
 
 /**
- * 
+ *
  * @param n milliseconds to sleep
  */
 function sleep(n: number) {
@@ -80,7 +78,7 @@ function sleep(n: number) {
 }
 
 function randomInt(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
 ;(async () => {

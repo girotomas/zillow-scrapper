@@ -1,16 +1,16 @@
-import fs from 'fs';
-import { ZipCodeProvider } from './utils/zip_code_provider';
-import { ZillowHouseResult, ZillowSearchResults } from './interfaces/zillow';
+import fs from 'fs'
+import { ZipCodeProvider } from './utils/zip_code_provider'
+import { ZillowHouseResult, ZillowSearchResults } from './interfaces/zillow'
 
 class ZipFileReader {
-  private zipCode: string;
+  private zipCode: string
 
   constructor(zipCode: string) {
-    this.zipCode = zipCode;
+    this.zipCode = zipCode
   }
 
   get filePath(): string {
-    return `./assets/zipData/${this.zipCode}.json`;
+    return `./assets/zipData/${this.zipCode}.json`
   }
 
   get hasData(): boolean {
@@ -22,11 +22,11 @@ class ZipFileReader {
       return undefined
     }
     try {
-      const data = fs.readFileSync(this.filePath, 'utf-8');
-      return JSON.parse(data);
+      const data = fs.readFileSync(this.filePath, 'utf-8')
+      return JSON.parse(data)
     } catch (err) {
-      console.error(err);
-      return undefined;
+      console.error(err)
+      return undefined
     }
   }
 
@@ -35,9 +35,10 @@ class ZipFileReader {
   }
 }
 
-
 function getRandomElement<T>(array: T[]): T | undefined {
-  return array.length ? array[Math.floor(Math.random() * array.length)] : undefined;
+  return array.length
+    ? array[Math.floor(Math.random() * array.length)]
+    : undefined
 }
 
 class DataHelper {
@@ -47,7 +48,7 @@ class DataHelper {
   constructor() {
     this.allZipCodes = new ZipCodeProvider().getAllZipCodes()
     this.allHouses = []
-    this.allZipCodes.forEach(zipCode => {
+    this.allZipCodes.forEach((zipCode) => {
       const zipFileReader = new ZipFileReader(zipCode)
       const results = zipFileReader.getHouseResults()
       results && this.allHouses.push(...results)
@@ -61,19 +62,17 @@ class DataHelper {
   get percentageDataScrapped(): number {
     const total = this.allZipCodes.length
     let seen = 0
-    this.allZipCodes.forEach(zipCode => {
+    this.allZipCodes.forEach((zipCode) => {
       const zipFileReader = new ZipFileReader(zipCode)
       if (zipFileReader.hasData) seen += 1
     })
-    return seen/total
+    return seen / total
   }
 }
-
 
 const dataHelper = new DataHelper()
 
 console.log(`Number of houses: ${dataHelper.allHouses.length}`)
-console.log(`Percentage data scrapped: ${(dataHelper.percentageDataScrapped*100).toFixed(2)}%`)
-
-
-
+console.log(
+  `Percentage data scrapped: ${(dataHelper.percentageDataScrapped * 100).toFixed(2)}%`
+)
