@@ -55,7 +55,7 @@ class ResultSaver {
 
   saveData(data: any) {
     try {
-      const outputString = JSON.stringify(data)
+      const outputString = JSON.stringify(data, null, 2)
       fs.writeFileSync(this.filePath, outputString)
       console.log(`File ${this.filePath} written successfully!`)
     } catch (err) {
@@ -65,23 +65,25 @@ class ResultSaver {
 }
 
 class ZipCodeProvider {
-  private zipCodes: string[] = []
-  private filePath = './assets/zips.txt'
+  private zipCodes: string[] = [];
+  private filePath = './assets/zips.txt';
+
   constructor() {
     try {
-      const data = fs.readFileSync(this.filePath, 'utf-8')
-      this.zipCodes = data.split('\n').filter((zip) => zip.trim()) // Split by newlines and remove empty lines
+      const data = fs.readFileSync(this.filePath, 'utf-8');
+      this.zipCodes = data.split('\n').filter((zip) => zip.trim());
     } catch (err) {
-      console.error('Error reading zip code file:', err)
-      this.zipCodes = [] // Clear zip codes on error
+      console.error('Error reading zip code file:', err);
+      this.zipCodes = [];
     }
   }
 
-  getZipCode(): string | undefined {
+  getRandomZipCode(): string | undefined {
     if (this.zipCodes.length > 0) {
-      return this.zipCodes.shift() // Remove and return the first element
+      const randomIndex = Math.floor(Math.random() * this.zipCodes.length); // Get a random index within the array
+      return this.zipCodes[randomIndex]; // Return the zip code at the random index
     } else {
-      return undefined // Indicate no more zip codes
+      return undefined;
     }
   }
 }
@@ -90,9 +92,18 @@ const getNeighborhoodUrl = (zipcode: string) => {
   return `https://www.zillow.com/homes/${zipcode}`
 }
 
+/**
+ * 
+ * @param n milliseconds to sleep
+ */
 function sleep(n: number) {
-  return new Promise((resolve) => setTimeout(resolve, n * 1000))
+  return new Promise((resolve) => setTimeout(resolve, n))
 }
+
+function randomInt(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 
 const NEIGHBORHOOD_URL = 'https://www.zillow.com/homes/'
 
@@ -101,7 +112,7 @@ const NEIGHBORHOOD_URL = 'https://www.zillow.com/homes/'
   await scrappy.start()
 
   const zipProvider = new ZipCodeProvider()
-  let zip = zipProvider.getZipCode()
+  let zip = zipProvider.getRandomZipCode()
   while (zip) {
     const resultSaver = new ResultSaver(zip)
     if (!resultSaver.isPresent()) {
@@ -110,8 +121,10 @@ const NEIGHBORHOOD_URL = 'https://www.zillow.com/homes/'
         Target.neighborhoodInfo
       )
       resultSaver.saveData(json)
-      sleep(0.5)
+      await sleep(randomInt(1000, 5000))
+    } else {
+      console.log(`Skipping zip code ${zip}`)
     }
-    zip = zipProvider.getZipCode()
+    zip = zipProvider.getRandomZipCode()
   }
 })()
