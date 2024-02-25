@@ -5,3 +5,4 @@ This zillow scrapper will get all data from all zip codes in the US for you and 
 
 To start the scrapper run `npm run scrappe`
 
+To analyze scrapped results run `npm run analyze`

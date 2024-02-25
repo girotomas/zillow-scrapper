@@ -2,6 +2,7 @@ import { Page } from 'puppeteer'
 import puppeteer from 'puppeteer-extra'
 import * as fs from 'fs'
 import StealthPlugin from 'puppeteer-extra-plugin-stealth'
+import { ZipCodeProvider } from './utils/zip_code_provider'
 
 puppeteer.use(StealthPlugin())
 
@@ -64,29 +65,7 @@ class ResultSaver {
   }
 }
 
-class ZipCodeProvider {
-  private zipCodes: string[] = [];
-  private filePath = './assets/zips.txt';
 
-  constructor() {
-    try {
-      const data = fs.readFileSync(this.filePath, 'utf-8');
-      this.zipCodes = data.split('\n').filter((zip) => zip.trim());
-    } catch (err) {
-      console.error('Error reading zip code file:', err);
-      this.zipCodes = [];
-    }
-  }
-
-  getRandomZipCode(): string | undefined {
-    if (this.zipCodes.length > 0) {
-      const randomIndex = Math.floor(Math.random() * this.zipCodes.length); // Get a random index within the array
-      return this.zipCodes[randomIndex]; // Return the zip code at the random index
-    } else {
-      return undefined;
-    }
-  }
-}
 
 const getNeighborhoodUrl = (zipcode: string) => {
   return `https://www.zillow.com/homes/${zipcode}`

@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "scrappe": "npx tsc && node ./build/run_scrapper.js",
+    "analyze": "npx tsc && node ./build/analyze_results.js",
     "format": "prettier --write ."
   },
   "keywords": [],
